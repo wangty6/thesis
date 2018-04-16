@@ -1,0 +1,63 @@
+\chapter{图像特征提取}
+\label{cha:feature}
+
+\section{双极系数}
+\label{sec:bipolar}
+双极系数法最早由京都工业大学的Mohammad Shorif Uddin和Tadayoshi Shioyama提出，作为一种鲁棒的斑马线检测算法，替代实时性和准确性不足的“消逝点法”。它的鲁棒性表现在不受多种光照条件和气候变化的影响。但该特征受道路磨损的影响较大。 \par
+它的算法描述如下：对于一副图像，将它的灰度分布记为$p_0(x)$。将灰度像素分为低灰度区域和高灰度区域，那么$p_0(x)$可以表示为
+\begin{align}
+	p_0(x)=\alpha p_1(x) + (1-\alpha)p_2(x)
+\end{align}
+其中$p_1(x)$表示低灰度的分布，$p_2(x)$表示高灰度的分布。以上变量的均值和方差可以表示为
+\begin{align}
+	\mu_i=\int_{-\infty}^{+\infty}xp_i(x)dx, (i = 1, 2, 3) \\
+	\sigma_i^2=\int_{-\infty}^{+\infty}(x-\mu_i)^2p_i(x)dx, (i = 1, 2, 3)
+\end{align}
+综合以上三式，
+\begin{align}
+	\sigma_0^2=\alpha \sigma_1^2+(1-\alpha)\sigma_2^2+\alpha(1-\alpha)(\mu_1-\mu_2)^2
+\end{align}
+观察(2.4)可以发现，灰度分布的总体方差可以表示为两部分方差和均值差平方的加权和，那么当总体方差主要受均值差影响时，我们认为图像是完全双极性的，既$\sigma_0^2\approx \alpha(1-\alpha)(\mu_1-\mu_2)^2$。所以定义双极性的函数为：
+\begin{align}
+	\gamma \equiv \frac{1}{\sigma_0^2} \alpha(1-\alpha)(\mu_1-\mu_2)^2 
+\end{align}\par
+式(2.5)告诉我们，$0 \leq \gamma \leq 1$，并且当$\gamma=1$时，说明低灰度分布和高灰度分布的内部方差均为0，此时图像具有完全的双极性。当$\gamma=0$时，低灰度分布和高灰度分布均值相同或某一个灰度区域不存在，既图像完全没有双极性。
+
+\section{灰度共生矩阵和特征值}
+\label{sec:cogrey}
+斑马线有黑白相间，间隔相同的特线，因此可以看做一种纹理，通过灰度共生矩阵（GLCM，Gray-Level Co-occurrence Matrix）将纹理信息提取出来。纹理是由灰度分布在空间域上反复出现而形成的，因此图像中相隔某个角度某个距离的像素的灰度之间有相关性。共生矩阵是指给定偏移量后共现灰度值的分布。它有如下特点：
+\begin{enumerate}
+	\item 偏移量是指，$(\Delta x, \Delta y)$或者$(\Delta \rho, \Delta \theta)$，$x$和$y$分别表示偏移的横纵坐标，$\rho$和$\theta$分别表示偏移的圆心距和极角
+	\item 一个灰度定义域为$[0,p]$的图像的灰度共生矩阵是一个$p \times p$的矩阵
+	\item 灰度共生矩阵中坐标为$(x, y)$的位置的值是$x$和$y$这两个灰度在给定偏移量下共同出现的次数
+\end{enumerate}\par
+对于一个矩阵A来说，它的灰度共生矩阵C可以表示为
+\begin{align}
+C_{\Delta x, \Delta y}(i,j)=\sum_{x=1}^n\sum_{y=1}^m\begin{cases} 1, & \text{if }A_{i,j}\text{ and }A_{x+\Delta x, y+\Delta y}=j \\ 0, & \text{otherwise}\end{cases}, (offset \equiv (\Delta x, \Delta y))
+\end{align}
+然而求出的灰度共生矩阵维数很大，无法很直观的使用，因此介绍与本题相关的灰度共生矩阵的特征值：熵（entropy），能量（energy），相关性（correlation），对比度（contrast）。
+\subsection{熵}
+\begin{align}
+ENT=\sum_{i,j\in A} -log(p_{i,j})p_{i,j}
+\end{align}\par
+把信息中排除了冗余后的平均信息量是信息熵，灰度共生矩阵的信息熵反映了图像邻域内的信息熵大小，越复杂的纹理所计算出的熵越大，反之较小。斑马线的特征是其灰度共生矩阵的熵较小。
+\subsection{能量}
+\begin{align}
+ASM=\sum_{i,j\in A} p_{i,j}^2
+\end{align}\par
+能量是反映图像灰度分布均匀和纹理粗细的重要指标，当纹理较细致纹理问分布均匀时，灰度共生矩阵的能量较大，反之较小。斑马线体现出的特征是其灰度共生矩阵的能量不能过大也不能过小。可以观察到，灰度全为最低灰度时是灰度共生矩阵的能量的下界，而多彩的雪花图是灰度共生矩阵的能量的上界。能量也称角二阶矩和统一度。
+\subsection{相关性}
+\begin{align}
+COR=\sum_{i, j\in A} p_{i,j} \frac{(i-\mu_i)(j-\mu_j)}{\sqrt{\sigma_i^2\sigma_j^2}}
+\end{align}\par
+相关性是像素和其邻域是否相关的度量，取值范围在$[-1, 1]$之间
+\subsection{对比度}
+\begin{align}
+CON=\sum_{i, j\in A} p_{i,j}(i-j)^2
+\end{align}\par
+对比度是图像中黑与白的层次性，当纹理黑白分明，对比明显，视觉效果强烈时，其对应的灰度共生矩阵体现出高对比度的特征，反之，如果图像的纹理灰暗，亮处和暗处不易分辨，则体现出低对比度。
+\subsection{反差分矩}
+\begin{align}
+IDM=\sum_{i, j\in A} \frac{p_{i,j}}{1+(i-j)^2}
+\end{align}\par
+反差分矩反映了纹理是否清晰和是否规则，纹理清晰、易于识别、富有规律、易于描述的其共生矩阵的反差分矩较大，反之较小。斑马线对应较大的反差分矩。反差分矩又称齐次性。

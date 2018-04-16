@@ -1,0 +1,46 @@
+\chapter{兴趣区域生成}
+\label{cha:roi}
+\section{图像分割}
+寻找兴趣区域（ROI, Region of Interest）的过程，可以通过不同大小的滑动窗口来实现。这种直接的方法在人脸检测当中取得了不错的效果，但是对于交通领域的课题，它实时性要求较高的特点决定了寻找ROI的过程必须更加精简和高效，来满足日常使用的需要。近年来，RCNN的技术在物体检测中大放异彩，RCNN的ROI生成是被称为Selective Search的方法，我们借鉴RCNN的该步骤，介绍一种基于图论的图像分割方法，期望它能够产生斑马线占比超过$80\%$的区域。 \par
+图像分割方法和聚类方法的研究已经有30年的历史，最新出现的高效基于图论的图像分割方法是由MIT人工智能实验室的Pedro F. Felzenszwalb提出的。基于图论的问题抽象是，用$G(V,E)$来表示图像，每个点$v_i\in V$都代表原图中的一个像素点，每条边$e_i\in E$代表了原图中的像素点和它邻域中点的边。边权的设计各有不同，基本上是由该像素点和其邻域共同决定的。可以观察出，并不是两两点之间都有边，因此保证了处理的复杂度。
+\section{定义}
+我们选取$(v_i, v_j)\in E$代表相邻的像素的边，每条边都对应了权值$w((v_i, v_j))$，$w$是一个非负整数，表示节点$v_i$和节点$v_j$的不相似度。我们要求得的图像分割S是点集V的一个划分，使得每个划分的部分$C\in S$都对应了一个图G的联通块。同时我们希望每个联通块内的点越相似越好。\par
+定义联通块$C\subseteq V$的\textbf{块内差异}为它最小生成树中的最大边：
+\begin{align}
+    Int(C)=\max_{e\in MST(C,E)}w(e)
+\end{align}\par
+定义两个联通块$C_1,C_2\subseteq V$的\textbf{块间差异}为连接两个联通块的最小边权：
+\begin{align}
+Dif(C_1,C_2)=\min_{v_i\in C_1,v_j\in C_2,(v_1,v_2)\in E}w((v_i, v_j))
+\end{align}\par
+这两个定义是直观的，因为它们反映出本问题中的相似概念。\par
+为了控制区域合并的粒度，我们规定当块间差异超过块内差异一定大小后停止合并，定义两个联通块的\textbf{合并比较断言}：
+\begin{align}
+MergePredict(C_1, C_2)=\left\{\begin{matrix}
+    true & if Dif(C_1, C_2) > MinLambda(C_1, C_2))\\ 
+    false & 
+    \end{matrix}\right.\\ 
+MinLambda(C_1, C_2) = \min(Int(C1) + \lambda(C1), Int(C2) + \lambda(C2))
+\end{align}
+
+\section{算法流程图}
+\label{sec:seg}
+\begin{algorithm}[h]
+\KwIn{$n$个点$m$条边的图$G=(V,E)$}
+将m条边按照边权不降排序，排列为$\pi$\;
+初始化：每个点属于仅包含自己的联通块\;
+\ForEach{边$\pi_q$}
+{
+    通过$S^{q-1}$构造$S^q$： \\
+    $(v_i,v_j)=\pi_q$\;
+    \If{$C^{q-1}_i\neq C^{q-1}_j$, $w(\pi_q) \leq MinLambda(C_i,C_j)$}
+    {
+        合并$C^{q-1}_i,C^{q-1}_j$\;
+        $C^{q-1}_i$代表$v_i$在$S^{q-1}$中所属的联通块\;
+        $C^{q-1}_j$代表$v_j$在$S^{q-1}$中所属的联通块\;
+    }
+}
+\caption{图像分割算法}
+\end{algorithm}
+可以证明，上述算法执行完毕后，$S^{m}$中任意一对联通块都不满足合并比较断言。在实现当中，通过并查集(UFS, Union-Find Set)维护连通性，整个算法的复杂度为$O(\alpha m)$。
+

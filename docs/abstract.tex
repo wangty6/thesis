@@ -1,0 +1,21 @@
+%%
+% 摘要信息
+% 本文档中前缀"c-"代表中文版字段, 前缀"e-"代表英文版字段
+% 摘要内容应概括地反映出本论文的主要内容，主要说明本论文的研究目的、内容、方法、成果和结论。要突出本论文的创造性成果或新见解，不要与引言相 混淆。语言力求精练、准确，以 300—500 字为宜。
+% 在摘要的下方另起一行，注明本文的关键词（3—5 个）。关键词是供检索用的主题词条，应采用能覆盖论文主要内容的通用技术词条(参照相应的技术术语 标准)。按词条的外延层次排列（外延大的排在前面）。摘要与关键词应在同一页。
+% modifier: 黄俊杰(huangjj27, 349373001dc@gmail.com)
+% update date: 2017-04-15
+%%
+
+\cabstract{
+本文的研究目的是设计一个能够检测道路中的斑马线的方法，对于检测方法的额外要求是具有通用性和鲁棒性，即对于拍摄条件、拍摄器材和拍摄角度没有要求，对于图片分辨率不高、天气变化、地面湿润等条件不敏感。研究内容首先由已有的双极系数法引入，通过兴趣区域生成的方法改善双极系数法的计算量。该方法取自RCNN算法当中，是本文的核心进展之一。通过分析双极系数法的局限性，进一步挖掘图像中双极系数无法捕捉到的特性，提出基于直线提取算法和字符匹配算法的新判据，这一判据改善了前人只通过直线提取的个数判断的缺陷，大幅提高了识别准确率。在统计特征和形态特征之外，尝试利用纹理特征提取技术结合机器学习算法进一步降低了算法的误识率。综上所述，本文通过改进已有方法，和引入新方法，在斑马线识别问题上，识别率和鲁棒性上均有提高，最后达到了约90\%的识别准确率。
+}
+% 中文关键词(每个关键词之间用“;”分开,最后一个关键词不打标点符号。)
+\ckeywords{图像处理;特征提取;斑马线识别;双极系数}
+
+\eabstract{
+The purpose of this paper is to design a method that can detect zebra crossings in roads. The additional requirements for this detection methods are versatility and robustness such that there are no limits for shooting conditions, shooting equipments and shooting angles, low quality of photos, weather changes, wet ground and other conditions have little influence to the detection process. The research begins with the existing bipolar coefficient method, and then optimizing the complexity of the bipolar coefficient method by generation of region of interest. This method is taken from the RCNN algorithm and is one of the core progress of this paper. By analyzing the limitations of the bipolar coefficient method, the characteristics of the bipolar coefficients that can not be captured in the image are further excavated, and a new criterion based on the line extraction algorithm and the string matching algorithm is proposed. This criterion improves the predecessors' method which only considered the number of lines. The change significantly improved the recognition accuracy. In addition to statistical and morphological features, the techniques using texture feature extraction combined with machine learning algorithms has further reduced the false positive rate of the algorithm. In summary, by improving the existing methods and introducing new methods, this paper improves the recognition rate and robustness on the zebra crossing recognition problem, and finally reaches about 90\% of the recognition accuracy rate.
+}
+% 英文文关键词(每个关键词之间用半角加空格分开, 最后一个关键词不打标点符号。)
+\ekeywords{image processing;feature extraction;zebra-crossing detection;bipolarity}
+
