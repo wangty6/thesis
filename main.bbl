@@ -1,0 +1,45 @@
+\begin{thebibliography}{1}
+\providecommand{\bibauthor}[1]{#1}
+\providecommand{\bibeditor}[1]{#1}
+\providecommand{\bibtranslator}[1]{#1}
+\providecommand{\bibtitle}[1]{#1}
+\providecommand{\bibbooktitle}[1]{#1}
+\providecommand{\bibjournal}[1]{#1}
+\providecommand{\bibmark}[1]{#1}
+\providecommand{\bibcountry}[1]{#1}
+\providecommand{\bibpatentid}[1]{#1}
+\providecommand{\bibedition}[1]{#1}
+\providecommand{\biborganization}[1]{#1}
+\providecommand{\bibaddress}[1]{#1}
+\providecommand{\bibpublisher}[1]{#1}
+\providecommand{\bibinstitution}[1]{#1}
+\providecommand{\bibschool}[1]{#1}
+\providecommand{\bibvolume}[1]{#1}
+\providecommand{\bibnumber}[1]{#1}
+\providecommand{\bibversion}[1]{#1}
+\providecommand{\bibpages}[1]{#1}
+\providecommand{\bibmodifydate}[1]{#1}
+\providecommand{\bibcitedate}[1]{#1}
+\providecommand{\bibyear}[1]{#1}
+\providecommand{\bibdate}[1]{#1}
+\providecommand{\biburl}[1]{\newline\url{#1}}
+
+\bibitem{bipolar}
+\bibauthor{UDDIN M~S\@, SHIOYAMA T}\@. \bibtitle{ROBUST ZEBRA-CROSSING
+  DETECTION USING BIPOLARITY AND PROJECTIVE INVARIANT}\bibmark{[J]}\@.
+  \bibjournal{IEEE Proceeding of The 8th International Symposium on Signal
+  Processing and its Applications}\@, \bibyear{2005}\thinspace{}\textnormal{:
+  }\bibpages{571\thinspace{}\textnormal{--}\thinspace{}574}\@.
+
+\bibitem{ipm}
+\bibauthor{王一丁徐超}\@.
+  \bibtitle{一种基于改良逆投影变换的道路斑马线识别方法}\bibmark{[J]}\@,
+  \bibyear{2013}\thinspace{}\textnormal{:
+  }\bibpages{31\thinspace{}\textnormal{--}\thinspace{}35}\@.
+
+\bibitem{segmentation}
+\bibauthor{PEDRO F.~FELZENSZWALB D~P~H}\@. \bibtitle{Efficient Graph-Based
+  Image Segmentation}\bibmark{[J]}\@, \bibyear{2004}\thinspace{}\textnormal{:
+  }\bibpages{59\thinspace{}\textnormal{--}\thinspace{}167.}\@.
+
+\end{thebibliography}
